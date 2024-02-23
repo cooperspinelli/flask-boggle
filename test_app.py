@@ -22,7 +22,10 @@ class BoggleAppTestCase(TestCase):
 
         with app.test_client() as client:
             response = client.get('/')
-            ...
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<title>Boggle</title>', html)
             # test that you're getting a template
 
     def test_api_new_game(self):
@@ -39,8 +42,10 @@ class BoggleAppTestCase(TestCase):
     def test_score_word(self):
         """Test if word is valid"""
 
-        with self.client as client:
+        # with self.client as client:
+        with app.test_client() as client:
             ...
+
             # make a post request to /api/new-game
             # get the response body as json using .get_json()
             # find that game in the dictionary of games (imported from app.py above)
