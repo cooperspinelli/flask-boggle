@@ -28,8 +28,7 @@ def new_game():
     """
 
     # get a unique string id for the board we're creating
-    # game_id = str(uuid4())
-    game_id = str(123)
+    game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
 
@@ -41,20 +40,23 @@ def new_game():
 
 @app.post('/api/score-word')
 def handle_score_word():
+    """handles score word endpoint, returns status of word"""
+
     request_data = request.get_json()
-    game_id = str(request_data["game_id"])
-    print('$$$$$$$$$$$$$$$$$$$$', type(game_id), game_id)
-    print('$$$$$$$$$$$$$$$$$$$$', games)
-    game = games[game_id]
+    game = games[request_data["game_id"]]
+    # TODO: turn word uppercase
     word = request_data['word']
 
     word_response = {}
+
+    # TODO: clean this up syntactically
 
     if not game.is_word_in_word_list(word):
         word_response['result'] = "not-word"
     elif not game.check_word_on_board(word):
         word_response['result'] = "not-on-board"
     else:
+        # TODO: call game.scoreword or whatever its called
         word_response['result'] = "ok"
 
     return jsonify(word_response)
