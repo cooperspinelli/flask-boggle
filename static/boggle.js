@@ -8,7 +8,7 @@ const $table = $("table");
 
 let gameId;
 
-
+console.log("HEREEEEE");
 /** Start */
 
 async function start() {
@@ -28,6 +28,7 @@ async function start() {
 function displayBoard(board) {
   // $table.empty();
   // loop over board and create the DOM tr/td structure
+  console.dir(board);
 }
 
 
