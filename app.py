@@ -44,8 +44,7 @@ def handle_score_word():
 
     request_data = request.get_json()
     game = games[request_data["gameId"]]
-    # TODO: turn word uppercase
-    word = request_data['word']
+    word = request_data['word'].upper()
 
     word_response = {}
 
@@ -56,7 +55,7 @@ def handle_score_word():
     elif not game.check_word_on_board(word):
         word_response['result'] = "not-on-board"
     else:
-        # TODO: call game.scoreword or whatever its called
+        game.play_and_score_word(word)
         word_response['result'] = "ok"
 
     return jsonify(word_response)

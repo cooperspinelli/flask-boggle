@@ -39,18 +39,47 @@ function displayBoard(board) {
   $table.append($tableBody);
 }
 
-async function handleFormSubmit() {
-  const word = $wordInput.val();
-  const response = await fetch('api/score-word',
+async function makeRequest(word) {
+  console.log("HERE");
+  const response = await fetch('/api/score-word',
     {
-      method: POST,
-      body: { word, gameId }
+      method: "POST",
+      body: JSON.stringify({ word, gameId }),
+      headers: {
+        "Content-Type": "application/json"
+      }
     }
   );
-  const response_data = await response.json()
-  result = response_data.result
+  console.log("MAYBE");
+  const response_data = await response.json();
+  console.log(response_data);
+  return response_data.result;
 }
 
-$form.on('submit', tobedetermined);
+function updateUiOnFormSubmit(word, result) {
+  $message.empty();
+
+  if (result === "ok") {
+    $playedWords.append($(`<li>${word}</li>`));
+  }
+
+  if (result === "not-word") {
+    $message.append($("<p>Not a word</p>"));
+  }
+
+  if (result === "not-on-board") {
+    $message.append($("<p>Not on board</p>"));
+  }
+
+}
+
+async function handleFormSubmit() {
+  console.log("HUHHHHHH");
+  const word = $wordInput.val();
+  const result = await makeRequest(word);
+  updateUiOnFormSubmit(word, result);
+}
+
+$form.on('submit', handleFormSubmit);
 
 start();
