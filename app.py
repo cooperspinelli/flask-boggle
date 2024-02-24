@@ -32,7 +32,7 @@ def new_game():
     game = BoggleGame()
     games[game_id] = game
 
-    game_data = {"game_id": game_id,
+    game_data = {"gameId": game_id,
                  "board": game.board}
 
     return jsonify(game_data)
@@ -43,7 +43,7 @@ def handle_score_word():
     """handles score word endpoint, returns status of word"""
 
     request_data = request.get_json()
-    game = games[request_data["game_id"]]
+    game = games[request_data["gameId"]]
     # TODO: turn word uppercase
     word = request_data['word']
 
