@@ -25,9 +25,32 @@ async function start() {
 /** Display board */
 
 function displayBoard(board) {
-  // $table.empty();
+  $table.empty();
   // loop over board and create the DOM tr/td structure
+  const $tableBody = $('<tbody>');
+
+  for (let row of board) {
+    const $rowToFill = $('<tr>');
+    for (let elem of row) {
+      $rowToFill.append($(`<td>${elem}</td>`));
+    }
+    $tableBody.append($rowToFill);
+  }
+  $table.append($tableBody);
 }
 
+async function handleFormSubmit() {
+  const word = $wordInput.val();
+  const response = await fetch('api/score-word',
+    {
+      method: POST,
+      body: { word, gameId }
+    }
+  );
+  const response_data = await response.json()
+  result = response_data.result
+}
+
+$form.on('submit', tobedetermined);
 
 start();
